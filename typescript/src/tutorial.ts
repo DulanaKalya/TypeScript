@@ -418,3 +418,241 @@ console.log(processData('Hello',{reverse:true}))
 //=======================================================================
 //===================== Alias and Interface============================
 //=======================================================================
+
+const john: {id:number;name: string;isActive:boolean}={
+    id: 1,
+    name: 'john',
+    isActive:true,
+}
+
+const susan: {id:number;name: string;isActive:boolean}={
+    id: 2,
+    name: 'susan',
+    isActive:false,
+}
+
+type User = {id:number;name: string;isActive:boolean}
+const susan1:User={
+    id: 2,
+    name: 'susan',
+    isActive:false,
+}
+function createUser(user:User):User{
+    console.log(`Hello there ${user.name.toUpperCase()}`)
+    return user;
+} 
+
+let p = createUser({id:1,name:"he he",isActive:false})
+console.log(p)
+
+
+type StringOrNumber = string|number;
+
+let value: StringOrNumber;
+value = 'hello';
+value = 123;
+
+type Theme = 'light' | 'dark';
+
+let theme: Theme;
+theme = 'dark';
+theme = 'light';
+
+function setTheme(t:Theme){
+    theme = t;
+}
+
+setTheme('dark');
+
+
+/*
+## Challenge
+
+- Define the Employee type: Create a type Employee with properties id (number),
+name (string), and department (string).
+
+- Define the Manager type: Create a type Manager with properties id (number), name
+(string), and employees (an array of Employee).
+
+- Create a Union Type: Define a type Staff that is a union of Employee and Manager.
+
+- Create the printStaffDetails function: This function should accept a parameter
+of type Staff. Inside the function, use a type guard to check if the 'employees'
+property exists in the passed object. If it does, print a message indicating that
+the person is a manager and the number of employees they manage. If it doesn't,
+print a message indicating that the person is an employee and the department they
+belong to.
+*/
+
+type Employee = {id:number,name:string,department:string}
+type Manager = {id:number,name:string,employees:Employee[]}
+type Staff = Employee | Manager
+
+function printStaffDetails(staff:Staff):void{
+    if('employees' in staff){
+        console.log(`Manager Name is ${staff.name} and num of employees is ${staff.employees.length}`)
+        return;
+    }
+    console.log(`Employee Name is ${staff.name} and department is ${staff.department} .`)
+
+}
+
+
+
+const em1 = {id:1900,name:"A",department:"A"}
+const mn1 = {id:1,name:"MA",employees:[ {id:1900,name:"A",department:"A"},{id:1901,name:"B",department:"B"}]}
+
+printStaffDetails(em1)
+printStaffDetails(mn1)
+
+type Book = {id:number; name:string;price:number};
+type discountedBook = Book & {discount:number};
+
+const Book:Book = {
+    id:1, 
+    name:"one",
+    price:100
+};
+
+const discountedBook:discountedBook = {
+    id:1, 
+    name:"one",
+    price:100,
+    discount:5
+};
+
+const propName = 'age'
+
+type Animal = {
+    [propName]:number;
+}
+let tiger:Animal = {[propName]:5};
+
+console.log(tiger)
+
+
+interface Book_interface{
+    readonly isbn:number;
+    title:string;
+    author:string;
+    genre?:string;
+} 
+
+const deepWork = {
+    isbn:123,
+    title:'deep',
+    author:'self-help',
+    genre:'sel-help'
+    //price: 1000
+};
+
+
+
+interface Book__ {
+    readonly isbn:number;
+    title:string;
+    author:string;
+    genre?: string;
+    printAuthor():void
+    printSomething:(someValue:number) => number;
+
+
+}
+
+const deepWork1:Book__ = {
+    isbn:123,
+    title:'deep',
+    author:'self-help',
+    genre:'sel-help',
+    //price: 1000
+
+    //methods
+    printAuthor() {
+        console.log(this.author);
+    },
+    /* 1st method
+    printSomething:(someValue){
+        return someValue;
+    }
+        
+     2nd method
+    */
+    printSomething:(someValue) => {
+    // console.log(this) this not working in arrow implementation
+    return someValue
+    }
+
+};
+
+deepWork1.printSomething(35)
+
+/*
+changed once it's set.
+- Use the ? after the storage property to indicate that this property is optional
+and may not exist on all objects of this type.
+- Also inside the interface, define any methods that the object should have. In
+this case, we have upgradeRam, which is a function that takes a number and
+returns a number.
+- Now that we have our interface, we can create an object that adheres to this
+interface. This object should have all the properties defined in the interface
+(except for optional ones, which are ... optional), and the methods should be
+imp lemented.
+- Finally, we can use our object. We can call its upgradeRam method to increase
+
+## Challenge
+
+I
+
+- Start by defining an interface Computer using the interface keyword. This will
+serve as a blueprint for objects that will be of this type.
+- Inside the interface, define the properties that the object should have. In
+this case, we have id, brand, ram, and storage.
+- Use the readonly keyword before the id property to indicate that it cannot be
+*/
+
+interface Computer{
+    readonly id:number;
+    brand:string;
+    ram:number;
+    upgradeRam(increase:number): number;
+    storage ?: number
+}
+
+const myLaptop:Computer = {
+    id:1,
+    brand:"hp",
+    ram:32,
+    upgradeRam(amount: number): number{
+        this.ram+=amount;
+        return this.ram;
+    },
+    
+};
+
+myLaptop.storage = 1;
+console.log(myLaptop.storage)
+
+interface Person {
+    name:string;
+    getDetails(): string;
+}
+
+interface DogOwner {
+    dogName:string;
+    getDogDetails(): string;
+}
+
+interface Person {
+    age:number;
+}
+
+
+const person:Person = {
+    name:'john',
+    age:30,
+    getDetails(){
+        return `Name: ${this.name} , Age:${this.age}`
+    }
+}
+
+console.log(person.getDetails())
