@@ -1,0 +1,2 @@
+npm create vite@latest typescript -- --template vanilla-ts
+import './tutorial.ts';
