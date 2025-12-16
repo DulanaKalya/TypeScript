@@ -1015,3 +1015,193 @@ console.log(getColorName(color))
 import newStudent1,{sayHello,Person3} from "./test";
 console.log(newStudent1)
 console.log(person3)
+
+
+
+
+//==================================================================
+//=======================type guard=================================
+//==================================================================
+
+type ValueType = string | number | boolean;
+
+let value1:ValueType;
+const random1 = Math.random();
+value1 = random < 0.33 ? 'Hello' : random < 0.66 ? 123.456 : true;
+
+function checkVakue(value: ValueType):void{
+    if(typeof value === 'string'){
+        console.log(value.toLowerCase());
+        return;
+    }
+    if(typeof value === 'number'){
+        console.log(value.toFixed(2));
+        return;
+    }
+}
+
+console.log(`boolean ${value}`)
+
+
+type Dog = { type: 'dog'; name: string; bark: () => void };
+type Cat = { type: 'cat'; name: string; meow: () => void };
+type Animal1 = Dog | Cat;
+
+function makeSound(animal1: Animal1) {
+  if ('bark' in animal1) {
+    // or animal1.type === 'dog'
+    // TypeScript knows that `animal` is a Dog in this block
+    animal1.bark();
+  } else {
+    // TypeScript knows that `animal` is a Cat in this block
+    // or animal1.type === 'cat'
+    animal1.meow();
+  }
+}
+
+
+
+function printLength(str: string | null | undefined) {
+  if (str) {
+    // In this block, TypeScript knows that `str` is a string
+    // because `null` and `undefined` are falsy values.
+    console.log(str.length);
+  } else {
+    console.log('No string provided');
+  }
+}
+
+printLength('Hello'); // Outputs: 5
+printLength(null); // Outputs: No string provided
+printLength(undefined); // Outputs: No string provided
+
+
+
+try {
+  // Some code that may throw an error
+  throw new Error('This is an error');
+} catch (error) {
+  if (error instanceof Error) {
+    console.log('Caught an Error object: ' + error.message);
+  } else {
+    console.log('Caught an unknown error');
+  }
+}
+
+
+
+
+
+
+function checkInput(input: Date | string): string {
+  if (input instanceof Date) {
+    return input.getFullYear().toString();
+  }
+  return input;
+}
+
+const year = checkInput(new Date());
+const random3 = checkInput('2020-05-05');
+console.log(year);
+console.log(random3);
+
+
+
+type Student5 = {
+  name: string;
+  study: () => void;
+};
+
+type User5 = {
+  name: string;
+  login: () => void;
+};
+
+type Person5 = Student5 | User5;
+
+const randomPerson1 = (): Person5 => {
+  return Math.random() > 0.5
+    ? { name: 'john', study: () => console.log('Studying') }
+    : { name: 'mary', login: () => console.log('Logging in') };
+};
+
+const Person8 = randomPerson1();
+if ('login' in Person8) {
+  Person8.login();
+} else {
+  Person8.study();
+}
+
+
+function isStudent(person: Person5): person is Student5 {
+  // return 'study' in person;
+  return (person as Student5).study !== undefined;
+}
+
+// Usage
+
+if (isStudent(Person8)) {
+  Person8.study(); // This is safe because TypeScript knows that 'person' is a Student.
+} else {
+  Person8.login();
+}
+
+
+
+
+type IncrementAction = {
+  type: 'increment';
+  amount: number;
+  timestamp: number;
+  user: string;
+};
+
+type DecrementAction = {
+  type: 'decrement';
+  amount: number;
+  timestamp: number;
+  user: string;
+};
+
+type Action = IncrementAction | DecrementAction;
+
+function reducer(state: number, action: Action): number {
+  switch (action.type) {
+    case 'increment':
+      return state + action.amount;
+    case 'decrement':
+      return state - action.amount;
+
+    default:
+      const unexpectedAction: never = action;
+      throw new Error(`Unexpected action: ${unexpectedAction}`);
+  }
+}
+
+const newState = reducer(15, {
+  user: 'john',
+  type: 'increment',
+  amount: 5,
+  timestamp: 123456,
+});
+
+console.log(reducer(15, {
+  user: 'john',
+  type: 'increment',
+  amount: 5,
+  timestamp: 123456,
+}))
+
+const action: Action = {
+  user: 'john',
+  type: 'increment',
+  amount: 5,
+  timestamp: 123456,
+};
+
+console.log(newState)
+console.log(action.user)
+
+
+
+
