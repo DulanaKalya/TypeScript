@@ -543,7 +543,6 @@ const deepWork = {
     title:'deep',
     author:'self-help',
     genre:'sel-help'
-    //price: 1000
 };
 
 
@@ -656,3 +655,165 @@ const person:Person = {
 }
 
 console.log(person.getDetails())
+
+
+
+//===============================
+//Type Guards
+
+interface Person1{
+    name:string;
+    getDetails():string;
+}
+
+interface DogOwner{
+    name:string;
+    getDogDetails():string;
+}
+
+const person1:Person1 = {
+    name:'john',
+    age:23,
+    getDetails() {
+        return `Name: ${this.name} , Age: ${this.age}`
+    },
+};
+
+console.log(person1.getDetails())
+
+interface Person1 {
+    age:number,
+}
+
+interface Employee1 extends Person1{
+    employeeId : number;
+
+}
+
+const employee: Employee1 = {
+    name: 'john',
+    age: 28,
+    employeeId: 1,
+    getDetails(): string {
+        return `Name: ${this.name}, Age: ${this.age}`;
+    }
+};
+
+console.log(employee.getDetails())
+
+
+interface Manager1 extends Person1,DogOwner {
+    managePeople():void;
+}
+
+const man1:Manager1 = {
+    name:'bob',
+    age: 35,
+    dogName:'rex',
+    getDetails(){
+        return `Name: ${this.name}, Age: ${this.age}`;
+    },
+    getDogDetails(){
+        return `Name: ${this.dogName}, Age: ${this.age}`;
+    },
+    managePeople(){
+        console.log('Managing people');
+    }
+}
+
+
+console.log(man1.getDogDetails())
+
+
+/*
+Challenge - Part 1
+
+- Define the Person interface Start by defining a Person interface with a name
+property of type string.
+- Define the DogOwner interface Next, define a DogOwner interface that extends
+Person and adds a dogName property of type string.
+- Define the Manager interface Then, define a Manager interface that extends
+Person and adds two methods: managePeople and delegateTasks. Both methods should
+have a return type of void.
+Define the getEmployee function Now, define a function called getEmployee that
+returns a Person, DogOwner, or Manager. Inside this function, generate a random
+number and use it to decide which type of object to return. If the number is less
+than 0.33, return a Person. If it's less than 0.66, return a DogOwner. Otherwise,
+return a Manager.
+- Finally, create a variable called employee that can be a Person, DogOwner, or
+Manager, and assign it the return value of getEmployee. Then, log employee to thes)
+console.
+*/
+
+interface Person2{
+    name:string;
+}
+
+interface DogOwner2 extends Person2{
+    dogName:string;
+}
+
+
+interface Manager2 extends Person2{
+    managePeople():void;
+    delegateTasks():void;
+}
+
+function getEmployee():Person2|DogOwner2|Manager2 {
+    const random = Math.random();
+    if(random < 0.33){
+        return {
+            name:'john',
+        };
+    }
+    else if (random < 0.66){
+        return {
+            name:'sarah',
+            dogName:'rex',
+        };
+    }
+    else {
+        return {
+            name:'bob',
+            managePeople(){
+                console.log('Managing People...')
+            },
+            delegateTasks(){
+                console.log('Delegating Tasks...')
+            }
+        };
+    }
+
+}
+
+const employee3:Person2|DogOwner2|Manager2 = getEmployee();
+console.log(employee3)
+
+function isManager(obj: Person2|DogOwner2|Manager2):obj is Manager2 {
+    return 'managePeople' in obj ;
+}
+if(isManager(employee3)){
+    employee3.delegateTasks()
+} 
+
+
+let person3:[string,number] = ['john',25];
+let date:[number,number,number] = [12,17,2001];
+date.push(37)
+
+let date1:readonly[number,number,number] = [12,17,2001];
+//date1.push(37)
+
+function getPerson(): [string,number]{
+    return ['john',25]
+}
+
+let randomPerson = getPerson();
+console.log(randomPerson[0]);
+console.log(randomPerson[1]);
+
+
+let su:[string,number?] = ['susan'];
+
+
+//================ Enums================
