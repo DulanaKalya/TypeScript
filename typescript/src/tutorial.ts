@@ -817,3 +817,201 @@ let su:[string,number?] = ['susan'];
 
 
 //================ Enums================
+/*
+In TypeScript, an enum (short for enumeration) is a way to define a set of named constant values.
+It’s mainly used when a variable should only take one value from a fixed list.
+*/
+
+enum ServerResponseStatus {
+  Success = 200,
+  Error = 'Error',
+}
+
+Object.values(ServerResponseStatus).forEach((value) => {
+    console.log(value);
+});
+
+interface ServerResponse {
+  result: ServerResponseStatus;
+  data: string[];
+}
+
+function getServerResponse(): ServerResponse {
+  return {
+    result: ServerResponseStatus.Success,
+    data: ['1st item', '2nd item'],
+  };
+}
+
+const response:ServerResponse = getServerResponse()
+console.log(response);
+
+
+/*
+- Define an enum named UserRole with members Admin, Manager, and Employee.
+- Define a type alias named User with properties id (number), name (string), role
+(UserRole), and contact (a tuple with two elements: email as string and phone as
+string).
+- Define a function named createUser that takes a User object as its parameter
+and returns a User object.
+- Call the createUser function with an object that matches the User type, store
+the result in a variable, and log the variable to the console.
+
+## Challenge
+
+*/
+
+enum UserRole{
+    Admin,
+    Manager,
+    Employee
+};
+
+type User1 = {
+    id:number;
+    name:string;
+    role:UserRole;
+    contact:[string,string]
+}
+
+function createUser1(user:User1):User1{
+    return user;
+}
+
+const User1:User1 = createUser1({
+    id:1,
+    name:'john',
+    role:UserRole.Admin,
+    contact:['1','2']
+});
+
+console.log(User1)
+
+
+
+let someValue1:any = 'this is a string'
+let strLength:number = (someValue as string).length;
+
+type Bird = {
+    name:string;
+};
+
+let birdString = '{"name":"Eagle"}';
+let dogString = '{"breed":"Poodle"}';
+
+let birdObject = JSON.parse(birdString);
+let dogObject = JSON.parse(dogString);
+
+let bird = birdObject as Bird;
+let dog =  dogObject as Bird;
+
+console.log(bird.name)
+console.log(dog.name)
+
+
+enum Status {
+    pending = 'pending',
+    declined = 'declined',
+}
+
+type User2 = {
+    name:string;
+    status:Status;
+}
+
+//save Status.Pending in the DB as a string
+//retrieve string from the DB
+
+const statusValue = 'Pending';
+const user:User2 = {name:'john',status:statusValue as Status};
+
+
+
+
+
+
+
+
+
+
+
+//=================type unkowns=====================
+let unkownValue:unknown;
+unkownValue = "Hello World";
+unkownValue = [1,2,3,4];
+unkownValue = 1234;
+
+
+if (typeof unkownValue === 'number'){
+    unkownValue.toFixed(2)
+}
+
+
+function runSomeCode(){
+    const random = Math.random();
+    if(random<0.5){
+        throw new Error('there was error');
+    }
+    else{
+        throw 'some error';
+    }
+}
+
+try {
+    runSomeCode()
+
+} catch(error){
+    if(error instanceof Error){
+        console.log(error.message);
+    }
+    else{
+        console.log(error);
+    }
+}
+
+//let someValue: never = 0;
+
+type Theme1 = 'light'|'dark'
+
+function checkTheme(theme:Theme):void{
+    if(theme==='light'){
+        console.log('dark theme')
+        return;
+    }
+    if(theme==='dark'){
+        console.log('dark theme');
+        return;
+    }
+    theme;
+}
+
+enum Color{
+    Red,
+    Blue,
+    Green,
+}
+
+
+function getColorName(color:Color){
+    switch(color){
+        case Color.Red:
+            return 'Red';
+        case Color.Blue:
+            return 'Blue';
+        case Color.Green:
+            return 'Grenn'
+        default:
+            //at build time
+            let unexpectedColor: never = color;
+            // at runtime
+            throw new Error(`Unexpected color value: ${color}`)
+    }
+}
+
+let color:Color = Color.Red;
+
+console.log(getColorName(color))
+
+import newStudent1,{sayHello,Person3} from "./test";
+console.log(newStudent1)
+console.log(person3)
