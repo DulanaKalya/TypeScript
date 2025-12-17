@@ -1205,3 +1205,78 @@ console.log(action.user)
 
 
 
+//=================================================
+//=====================Generics====================
+//=================================================
+
+
+
+// In TypeScript, you can declare an array using two syntaxes:
+
+// let array1: string[] = ['Apple', 'Banana', 'Mango'];
+// let array2: number[] = [1, 2, 3];
+// let array3: boolean[] = [true, false, true];
+
+let array1: Array<string> = ['Apple', 'Banana', 'Mango'];
+let array2: Array<number> = [1, 2, 3];
+let array3: Array<boolean> = [true, false, true];
+
+//
+function createString(arg: string): string {
+  return arg;
+}
+function createNumber(arg: number): number {
+  return arg;
+}
+
+// Define a generic function
+function genericFunction<T>(arg: T): T {
+  return arg;
+}
+
+const someStringValue = genericFunction<string>('Hello World');
+const someNumberValue = genericFunction<number>(2);
+
+// Define a generic interface
+interface GenericInterface<T> {
+  value: T;
+  getValue: () => T;
+}
+
+const genericString: GenericInterface<string> = {
+  value: 'Hello World',
+  getValue() {
+    return this.value;
+  },
+};
+
+
+
+// A Promise in JavaScript (and thus TypeScript) is an object representing the eventual completion or failure of an asynchronous operation.
+
+async function someFunc(): Promise<string> {
+  return 'Hello World';
+}
+
+const result3 = someFunc();
+
+// generate an array of strings
+function generateStringArray(length: number, value: string): string[] {
+  let result: string[] = [];
+  result = Array(length).fill(value);
+  return result;
+}
+
+console.log(generateStringArray(3, 'hello'));
+
+function createArray<T>(length: number, value: T): Array<T> {
+  let result: T[] = [];
+  result = Array(length).fill(value);
+  return result;
+}
+
+let arrayStrings = createArray<string>(3, 'hello'); // ["hello", "hello", "hello"]
+let arrayNumbers = createArray<number>(4, 100); // [100, 100, 100, 100]
+
+console.log(arrayStrings);
+console.log(arrayNumbers);
